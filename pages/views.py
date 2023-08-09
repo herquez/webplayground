@@ -4,9 +4,7 @@ from .models import Page
 from django.views.generic import list, detail
 
 class PageListView(list.ListView):
-    template_name = 'pages/pages.html'
     model = Page
 
 class PageDetailView(detail.DetailView):
-    template_name = 'pages/page.html'
     model = Page
