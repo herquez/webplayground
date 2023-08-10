@@ -8,6 +8,12 @@
     <div class="row mt-3">
       <div class="col-md-9 mx-auto">
         <div>
+            {% if 'ok' in request.GET %}
+              <p style="color: green;">Pagina editada correctamente.
+              <a href={% url 'pages:page' page.id page.title|slugify %}>
+                Haz click aqui
+              </a> para ver el resultado</p>
+            {% endif %}
             <form action="" method="post">{% csrf_token %}
                 <table>
                     {{ form.as_table }}
