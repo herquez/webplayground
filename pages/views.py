@@ -1,6 +1,6 @@
 from .models import Page
 from django.views.generic import list, detail
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 class PageListView(list.ListView):
@@ -19,7 +19,12 @@ class PageCreateView(CreateView):
 class PageUpdateView(UpdateView):
     model = Page
     fields = ['title', 'content', 'order']
-    template_name_suffix = "_update_form"
+    template_name_suffix = '_update_form'
 
     def get_success_url(self):
         return reverse_lazy('pages:update', args=[self.object.id])+'?ok'
+    
+class PageDeleteView(DeleteView):
+    model = Page
+    success_url = reverse_lazy('pages:pages')
+    
