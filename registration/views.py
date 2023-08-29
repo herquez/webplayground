@@ -4,9 +4,10 @@ from django.forms.models import BaseModelForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django import forms
+from .forms import UserCreationEmail
 
 class SignUpView(CreateView):
-    form_class = UserCreationForm
+    form_class = UserCreationEmail
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
@@ -19,6 +20,12 @@ class SignUpView(CreateView):
             attrs={
                 'class': 'form-control mb-2',
                 'placeholder': 'Nombre de usuario',
+            }
+        )
+        form.fields['email'].widget = forms.EmailInput(
+            attrs={
+                'class': 'form-control mb-2',
+                'placeholder': 'usuario@correo.com',
             }
         )
         form.fields['password1'].widget = forms.PasswordInput(
