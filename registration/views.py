@@ -1,5 +1,3 @@
-from typing import Optional, Type
-from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import BaseModelForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
