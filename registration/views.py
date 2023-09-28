@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django import forms
-from .forms import UserCreationEmail, ProfileForm
+from .forms import UserCreationEmail, ProfileForm, EmailForm
 from .models import Profile
 
 class SignUpView(CreateView):
@@ -53,3 +53,23 @@ class ProfileUpdate(UpdateView):
     def get_object(self):
         profile, created =  Profile.objects.get_or_create(user=self.request.user)
         return profile
+    
+@method_decorator(login_required, name='dispatch')
+class EmailUpdate(UpdateView):
+    form_class = EmailForm
+    success_url = reverse_lazy('profile')
+    template_name = 'registration/profile_email_form.html'
+
+    def get_object(self):
+        # Recupera la instancia que queremos editar
+        return self.request.user
+    
+    def get_form(self, form_class: type[BaseModelForm] | None = ...) -> BaseModelForm:
+        form = super(EmailUpdate, self).get_form()
+        form.fields['email'].widget = forms.EmailInput(
+            attrs={
+                'class': 'form-control mt-3',
+                'placeholder': 'Email',
+            }
+        )
+        return form
